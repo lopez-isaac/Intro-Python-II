@@ -1,4 +1,5 @@
 from room import Room
+from player import Player
 
 # Declare all the rooms
 
@@ -39,6 +40,8 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 
+player1 = Player("Isaac", room["outside"])
+
 # Write a loop that:
 #
 # * Prints the current room name
@@ -49,3 +52,44 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+#
+
+usr_input = " "
+while usr_input != "q":
+    print(player1)
+    usr_input = str(input("Find the treasure!!\nEnter a move: [n] [s] [e] [w] [q]to quit"))
+
+    if usr_input == "n":
+        if player1.current_room.n_to == None:
+            print("\nDead end try again\n")
+        else:
+            player1.current_room = player1.current_room.n_to
+
+    elif usr_input =="s":
+        if player1.current_room.s_to == None:
+            print("Dead end try again\n")
+        else:
+            player1.current_room = player1.current_room.s_to
+
+    elif usr_input =="e":
+        if player1.current_room.e_to == None:
+            print("Dead end try again\n")
+        else:
+            player1.current_room = player1.current_room.e_to
+
+    elif usr_input =="w":
+        if player1.current_room.w_to == None:
+            print("Dead end try again\n")
+        else:
+            player1.current_room = player1.current_room.w_to
+
+
+
+
+
+
+
+
+
+
+
