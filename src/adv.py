@@ -1,5 +1,6 @@
 from room import Room
 from player import Player
+from item import Item
 
 # Declare all the rooms
 
@@ -38,6 +39,23 @@ room['treasure'].s_to = room['narrow']
 # Main
 #
 
+#create items
+sword = Item("sword", "Rusty but still cuts")
+shield =Item("shield", "Made from fine oak wood")
+helmet = Item("helmet", "Keeps your hair dust free, unless your bald")
+apple = Item("apple", "Juicy and sweet")
+gold = Item("gold", "1000 gold coins")
+telescope = Item("telescope", "A golden telescope")
+
+
+#add items to rooms
+room["foyer"].items.append(sword)
+room["foyer"].items.append(shield)
+room["foyer"].items.append(helmet)
+room["outside"].items.append(apple)
+room["treasure"].items.append(gold)
+room["overlook"].items.append(telescope)
+
 # Make a new player object that is currently in the 'outside' room.
 
 player1 = Player("Isaac", room["outside"])
@@ -55,11 +73,47 @@ player1 = Player("Isaac", room["outside"])
 #
 
 usr_input = " "
-while usr_input != "q":
-    print(player1)
-    usr_input = str(input("Find the treasure!!\nEnter a move: [n] [s] [e] [w] [q]to quit"))
+print("Find the treasure room!!")
+print("""How to play:
+Movements:[n] [s] [e] [w] [q]uit
+Actions: [get item] [drop item] [i]nventory""")
 
-    if usr_input == "n":
+while usr_input != "q":
+    print("---------------------")
+    print(player1)
+    player1.current_room.list_items()
+    usr_input = str(input("Enter command:"))
+
+    if usr_input == "get item":
+        player1.current_room.list_items()
+        item_input = input("select item to pick up:")
+        #item=None
+        for i in player1.current_room.items:
+            if i.item_name == item_input:
+                item = i
+            else:
+                print("invalid")
+        player1.pick_up(item)
+        item.on_take()
+
+    elif usr_input == "drop":
+        print("inventory contains:")
+        player1.view_inventory()
+        item_input = input("select item to drop up:")
+        # item=None
+        for i in player1.inventory:
+            if i.item_name == item_input:
+                item = i
+            else:
+                print("invalid")
+        player1.drop(item)
+        item.on_drop()
+
+    elif usr_input == "i":
+        print("inventory contains:")
+        player1.view_inventory()
+
+    elif usr_input == "n":
         if player1.current_room.n_to == None:
             print("\nDead end try again\n")
         else:
